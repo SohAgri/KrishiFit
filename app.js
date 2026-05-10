@@ -87,7 +87,7 @@ let reminderTimers = new Map();
 
 function clone(value) {
   if (typeof structuredClone === 'function') return structuredClone(value);
-  // State data is plain JSON, so this fallback clone is safe.
+  // State data is JSON-serializable; update this if non-JSON types are added.
   return JSON.parse(JSON.stringify(value));
 }
 
@@ -218,8 +218,11 @@ function getMotivationMessage(pct) {
 }
 
 function quoteOfDay() {
-  const index = Math.abs(new Date(today).getTime()) % QUOTES.length;
-  return QUOTES[index];
+  let hash = 0;
+  for (const char of today) {
+    hash = (hash + char.charCodeAt(0)) % QUOTES.length;
+  }
+  return QUOTES[hash];
 }
 
 function renderHome() {
@@ -695,6 +698,7 @@ function applyTheme() {
   const toggle = document.getElementById('themeToggle');
   const toggleInput = document.getElementById('themeToggleInput');
   toggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+  toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
   toggleInput.checked = theme === 'dark';
 }
 
