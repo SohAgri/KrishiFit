@@ -1,5 +1,11 @@
 const STORAGE_KEY = 'krishifit_v1';
 const WATER_GOAL_ML = 4000;
+const REMINDER_MESSAGES = {
+  workout: 'Time for your workout.',
+  water: 'Drink water and stay hydrated.',
+  skincare: 'Complete your skincare routine.',
+  sleep: 'Wind down and sleep on time for recovery.'
+};
 const defaults = {
   settings: {
     length: 60,
@@ -371,15 +377,9 @@ function scheduleReminders() {
   reminderTimer = setInterval(() => {
     const now = new Date();
     const hhmm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    const messages = {
-      workout: 'Time for your workout.',
-      water: 'Drink water and stay hydrated.',
-      skincare: 'Complete your skincare routine.',
-      sleep: 'Wind down and sleep on time for recovery.'
-    };
 
     Object.entries(state.settings.reminders).forEach(([key, time]) => {
-      if (time && time === hhmm) notify(messages[key] || 'KrishiFit reminder');
+      if (time && time === hhmm) notify(REMINDER_MESSAGES[key] || 'KrishiFit reminder');
     });
   }, 30000);
 }

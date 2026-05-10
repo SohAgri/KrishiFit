@@ -11,13 +11,13 @@
     {
       "src": "assets/icon.svg",
       "type": "image/svg+xml",
-      "sizes": "192x192",
+      "sizes": "any",
       "purpose": "any maskable"
     },
     {
       "src": "assets/icon.svg",
       "type": "image/svg+xml",
-      "sizes": "512x512",
+      "sizes": "any",
       "purpose": "any maskable"
     }
   ],
