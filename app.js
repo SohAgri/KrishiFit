@@ -3,6 +3,7 @@ const WATER_GOAL_ML = 4000;
 const WATER_GOAL_L = (WATER_GOAL_ML / 1000).toFixed(2);
 const STREAK_THRESHOLD = 0.6;
 const PERCENT_MULTIPLIER = 100;
+const MAX_STREAK_DAYS = 365;
 const QUOTES = [
   'Discipline beats motivation when motivation fades.',
   'Small steps every day build massive results.',
@@ -88,7 +89,7 @@ let reminderTimers = new Map();
 
 function clone(value) {
   if (typeof structuredClone === 'function') return structuredClone(value);
-  // State data is JSON-serializable; update this if non-JSON types are added.
+  // JSON clone drops Dates/functions/undefined, so keep state JSON-serializable.
   return JSON.parse(JSON.stringify(value));
 }
 
@@ -532,7 +533,7 @@ function switchTab(tabId) {
 function calcStreak() {
   let streak = 0;
   const date = new Date(today);
-  for (let i = 0; i < 365; i += 1) {
+  for (let i = 0; i < MAX_STREAK_DAYS; i += 1) {
     const iso = date.toISOString().slice(0, 10);
     if (!state.days[iso]) break;
     const { total, pct } = getCompletion(iso);
@@ -671,7 +672,7 @@ function scheduleReminders() {
       if (Number.isNaN(hours) || Number.isNaN(minutes)) return;
       const target = new Date();
       target.setHours(hours, minutes, 0, 0);
-      if (target <= now) target.setDate(target.getDate() + 1);
+      if (target < now) target.setDate(target.getDate() + 1);
       const delay = target - now;
       const id = setTimeout(() => {
         notify(`${task.text} · ${routine.name}`);
@@ -712,7 +713,7 @@ function toggleTheme() {
 
 function showError(message) {
   const banner = document.getElementById('errorBanner');
-  banner.textContent = `${message} Check the console for details.`;
+  banner.textContent = `${message} If you have access to developer tools, check the console for details.`;
   banner.classList.remove('hidden');
 }
 
@@ -805,14 +806,16 @@ function init() {
 
 window.addEventListener('error', (event) => {
   console.error('Runtime error', event.error || event.message);
-  const message = event.message ? `App error: ${event.message}.` : 'App error encountered.';
+  const detail = event.message ? event.message.replace(/\.+$/, '') : '';
+  const message = detail ? `App error: ${detail}.` : 'App error encountered.';
   showError(message);
 });
 
 window.addEventListener('unhandledrejection', (event) => {
   console.error('Unhandled rejection', event.reason);
   const reason = event.reason?.message || event.reason;
-  const message = reason ? `App error: ${reason}.` : 'App error encountered.';
+  const detail = reason ? String(reason).replace(/\.+$/, '') : '';
+  const message = detail ? `App error: ${detail}.` : 'App error encountered.';
   showError(message);
 });
 
@@ -821,6 +824,7 @@ window.addEventListener('DOMContentLoaded', () => {
     init();
   } catch (error) {
     console.error('Failed to initialize app', error);
-    showError(`Unable to start the app${error?.message ? `: ${error.message}` : ''}.`);
+    const detail = error?.message ? error.message.replace(/\.+$/, '') : '';
+    showError(detail ? `Unable to start the app: ${detail}.` : 'Unable to start the app.');
   }
 });
