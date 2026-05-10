@@ -9,6 +9,7 @@ const REMINDER_MESSAGES = {
 const defaults = {
   settings: {
     length: 60,
+    // Start date anchors the 60-day journey timeline and dashboard day counter.
     startDate: new Date().toISOString().slice(0, 10),
     workoutList: ['Running', 'Push-ups', 'Squats', 'Plank', 'Leg Raises', 'Abs workout', 'Gym session'],
     skincare: {
@@ -381,6 +382,7 @@ function scheduleReminders() {
     Object.entries(state.settings.reminders).forEach(([key, time]) => {
       if (time && time === hhmm) notify(REMINDER_MESSAGES[key] || 'KrishiFit reminder');
     });
+  // 30s polling balances reminder timing accuracy with low battery/CPU overhead.
   }, 30000);
 }
 
