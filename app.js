@@ -218,11 +218,11 @@ function getMotivationMessage(pct) {
 }
 
 function quoteOfDay() {
-  let hash = 0;
-  for (const char of today) {
-    hash = (hash + char.charCodeAt(0)) % QUOTES.length;
-  }
-  return QUOTES[hash];
+  const date = new Date(today);
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date - start;
+  const dayNumber = Math.floor(diff / 86400000);
+  return QUOTES[dayNumber % QUOTES.length];
 }
 
 function renderHome() {
@@ -533,6 +533,7 @@ function calcStreak() {
   const date = new Date(today);
   for (let i = 0; i < 365; i += 1) {
     const iso = date.toISOString().slice(0, 10);
+    if (!state.days[iso]) break;
     const { total, pct } = getCompletion(iso);
     if (!total || pct < STREAK_THRESHOLD * 100) break;
     streak += 1;
@@ -656,7 +657,7 @@ function handleRoutineManagerClick(event) {
 }
 
 function scheduleReminders() {
-  reminderTimers.forEach((id) => clearTimeout(id));
+  reminderTimers.forEach((timerId) => clearTimeout(timerId));
   reminderTimers.clear();
 
   const now = new Date();
