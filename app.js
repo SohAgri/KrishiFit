@@ -2,6 +2,7 @@ const STORAGE_KEY = 'krishifit_state_v2';
 const WATER_GOAL_ML = 4000;
 const WATER_GOAL_L = (WATER_GOAL_ML / 1000).toFixed(2);
 const STREAK_THRESHOLD = 0.6;
+const PERCENT_MULTIPLIER = 100;
 const QUOTES = [
   'Discipline beats motivation when motivation fades.',
   'Small steps every day build massive results.',
@@ -206,7 +207,7 @@ function getCompletion(date = today) {
       if (day.tasks?.[routine.id]?.[task.id]) done += 1;
     });
   });
-  const pct = total ? Math.round((done / total) * 100) : 0;
+  const pct = total ? Math.round((done / total) * PERCENT_MULTIPLIER) : 0;
   return { total, done, pct };
 }
 
@@ -219,9 +220,9 @@ function getMotivationMessage(pct) {
 
 function quoteOfDay() {
   const date = new Date(today);
-  const start = new Date(date.getFullYear(), 0, 0);
+  const start = new Date(date.getFullYear(), 0, 1);
   const diff = date - start;
-  const dayNumber = Math.floor(diff / 86400000);
+  const dayNumber = Math.floor(diff / 86400000) + 1;
   return QUOTES[dayNumber % QUOTES.length];
 }
 
@@ -535,7 +536,7 @@ function calcStreak() {
     const iso = date.toISOString().slice(0, 10);
     if (!state.days[iso]) break;
     const { total, pct } = getCompletion(iso);
-    if (!total || pct < STREAK_THRESHOLD * 100) break;
+    if (!total || pct < STREAK_THRESHOLD * PERCENT_MULTIPLIER) break;
     streak += 1;
     date.setDate(date.getDate() - 1);
   }
@@ -711,7 +712,7 @@ function toggleTheme() {
 
 function showError(message) {
   const banner = document.getElementById('errorBanner');
-  banner.textContent = message;
+  banner.textContent = `${message} Check the console for details.`;
   banner.classList.remove('hidden');
 }
 
@@ -804,12 +805,15 @@ function init() {
 
 window.addEventListener('error', (event) => {
   console.error('Runtime error', event.error || event.message);
-  showError('Something went wrong. Refresh the page to try again.');
+  const message = event.message ? `App error: ${event.message}.` : 'App error encountered.';
+  showError(message);
 });
 
 window.addEventListener('unhandledrejection', (event) => {
   console.error('Unhandled rejection', event.reason);
-  showError('Something went wrong. Refresh the page to try again.');
+  const reason = event.reason?.message || event.reason;
+  const message = reason ? `App error: ${reason}.` : 'App error encountered.';
+  showError(message);
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -817,6 +821,6 @@ window.addEventListener('DOMContentLoaded', () => {
     init();
   } catch (error) {
     console.error('Failed to initialize app', error);
-    showError('Unable to start the app. Please reload.');
+    showError(`Unable to start the app${error?.message ? `: ${error.message}` : ''}.`);
   }
 });

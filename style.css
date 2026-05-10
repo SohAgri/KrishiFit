@@ -10,6 +10,7 @@
   --border: rgba(255, 255, 255, 0.1);
   --shadow: 0 12px 30px rgba(2, 6, 23, 0.45);
   --radius: 16px;
+  --nav-active-bg: rgba(30, 41, 59, 0.6);
 }
 
 [data-theme='light'] {
@@ -20,6 +21,7 @@
   --muted: #475569;
   --border: rgba(15, 23, 42, 0.12);
   --shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  --nav-active-bg: rgba(148, 163, 184, 0.25);
 }
 
 * {
@@ -363,7 +365,7 @@ button.ghost {
 
 .bottom-nav button.active {
   color: var(--accent);
-  background: rgba(30, 41, 59, 0.6);
+  background: var(--nav-active-bg);
   border-radius: 12px;
 }
 
