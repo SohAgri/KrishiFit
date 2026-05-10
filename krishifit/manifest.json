@@ -1,0 +1,26 @@
+{
+  "name": "KrishiFit",
+  "short_name": "KrishiFit",
+  "description": "60-day personal transformation tracker for fitness, food, skincare, habits, and progress.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070b16",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/splash.svg",
+      "sizes": "1080x1920",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ]
+}
