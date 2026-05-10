@@ -87,6 +87,7 @@ let reminderTimers = new Map();
 
 function clone(value) {
   if (typeof structuredClone === 'function') return structuredClone(value);
+  // State data is plain JSON, so this fallback clone is safe.
   return JSON.parse(JSON.stringify(value));
 }
 
@@ -217,7 +218,7 @@ function getMotivationMessage(pct) {
 }
 
 function quoteOfDay() {
-  const index = Number(today.replaceAll('-', '')) % QUOTES.length;
+  const index = Math.abs(new Date(today).getTime()) % QUOTES.length;
   return QUOTES[index];
 }
 
@@ -527,7 +528,7 @@ function switchTab(tabId) {
 function calcStreak() {
   let streak = 0;
   const date = new Date(today);
-  while (true) {
+  for (let i = 0; i < 365; i += 1) {
     const iso = date.toISOString().slice(0, 10);
     const { total, pct } = getCompletion(iso);
     if (!total || pct < STREAK_THRESHOLD * 100) break;
@@ -659,7 +660,9 @@ function scheduleReminders() {
   state.routines.forEach((routine) => {
     routine.tasks.forEach((task) => {
       if (!task.reminder) return;
-      const [hours, minutes] = task.reminder.split(':').map(Number);
+      const parts = task.reminder.split(':');
+      if (parts.length !== 2) return;
+      const [hours, minutes] = parts.map(Number);
       if (Number.isNaN(hours) || Number.isNaN(minutes)) return;
       const target = new Date();
       target.setHours(hours, minutes, 0, 0);
@@ -676,10 +679,14 @@ function scheduleReminders() {
 
 function notify(message) {
   if ('Notification' in window && Notification.permission === 'granted') {
-    new Notification('KrishiFit Reminder', { body: message });
-  } else {
-    alert(`KrishiFit reminder: ${message}`);
+    try {
+      new Notification('KrishiFit Reminder', { body: message });
+      return;
+    } catch (error) {
+      console.error('Notification failed', error);
+    }
   }
+  alert(`KrishiFit reminder: ${message}`);
 }
 
 function applyTheme() {
