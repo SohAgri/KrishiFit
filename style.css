@@ -1,0 +1,388 @@
+:root {
+  --bg: #0b1220;
+  --card: #111827;
+  --soft: #1f2937;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #22d3ee;
+  --accent-2: #22c55e;
+  --danger: #ef4444;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 12px 30px rgba(2, 6, 23, 0.45);
+  --radius: 16px;
+}
+
+[data-theme='light'] {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --soft: #f1f5f9;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(15, 23, 42, 0.12);
+  --shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 14px 14px 88px;
+}
+
+h1, h2, h3, p {
+  margin: 0 0 8px;
+}
+
+small {
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.quote {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.app-header {
+  max-width: 980px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+}
+
+main {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.stat span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: block;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin: 8px 0 14px;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.2s ease;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.focus-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.focus-list li {
+  background: var(--soft);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.tab {
+  display: none;
+}
+
+.tab.active {
+  display: block;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  padding: 10px 12px;
+}
+
+button {
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+button:hover {
+  filter: brightness(1.05);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button.ghost {
+  background: transparent;
+}
+
+.input-stack {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.inline-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.routine-list {
+  display: grid;
+  gap: 12px;
+}
+
+.routine-card {
+  display: grid;
+  gap: 10px;
+}
+
+.routine-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.task-list {
+  display: grid;
+  gap: 8px;
+}
+
+.task-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  background: var(--soft);
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.task-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 180px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.task-actions button {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+.reminder-input {
+  min-width: 110px;
+}
+
+.empty-state {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.weekly-chart {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  align-items: end;
+  height: 140px;
+}
+
+.chart-bar {
+  background: rgba(34, 211, 238, 0.2);
+  border-radius: 10px 10px 6px 6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 4px;
+}
+
+.chart-bar span {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.chart-bar strong {
+  font-size: 0.75rem;
+  color: var(--text);
+}
+
+.weight-log {
+  display: grid;
+  gap: 6px;
+}
+
+.weight-log div {
+  background: var(--soft);
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.photo-today {
+  margin-top: 12px;
+  min-height: 120px;
+  border-radius: 12px;
+  background: var(--soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.photo-today img {
+  width: 100%;
+  border-radius: 12px;
+  max-height: 220px;
+  object-fit: cover;
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.timeline img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.routine-manager {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.routine-manager .manager-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+}
+
+.bottom-nav button {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  padding: 6px 2px;
+}
+
+.bottom-nav button.active {
+  color: var(--accent);
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 12px;
+}
+
+.error-banner {
+  max-width: 980px;
+  margin: 12px auto;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fecaca;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (min-width: 700px) {
+  .timeline {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

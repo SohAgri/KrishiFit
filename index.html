@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>KrishiFit</title>
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div id="errorBanner" class="error-banner hidden" role="alert"></div>
+
+    <header class="app-header">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="KrishiFit logo" class="logo" />
+        <div>
+          <h1>KrishiFit</h1>
+          <p id="todayDate" class="muted"></p>
+        </div>
+      </div>
+      <button id="themeToggle" class="ghost" type="button" aria-label="Toggle dark mode">🌙</button>
+    </header>
+
+    <main id="app">
+      <section id="home" class="tab active">
+        <div class="card">
+          <h2>Dashboard</h2>
+          <p id="motivation" class="muted"></p>
+          <p id="quote" class="quote"></p>
+          <div class="stats-grid">
+            <div class="stat">
+              <span id="taskSummary">0 / 0</span>
+              <small>Tasks completed</small>
+            </div>
+            <div class="stat">
+              <span id="completionPercent">0%</span>
+              <small>Completion</small>
+            </div>
+            <div class="stat">
+              <span id="waterSummary">0 / 4L</span>
+              <small>Water intake</small>
+            </div>
+          </div>
+          <div class="progress-bar"><span id="completionBar"></span></div>
+          <div class="quick-actions">
+            <button data-water="250" type="button">+250 ml</button>
+            <button data-water="500" type="button">+500 ml</button>
+            <button data-jump="routines" type="button">Update routines</button>
+            <button data-jump="gallery" type="button">Add photo</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Today's Focus</h3>
+          <ul id="todayFocus" class="focus-list"></ul>
+        </div>
+      </section>
+
+      <section id="routines" class="tab">
+        <div class="card">
+          <h2>Routine Manager</h2>
+          <p class="muted">Add, edit, or complete tasks in each routine. Set reminder times per task.</p>
+        </div>
+        <div id="routineList" class="routine-list"></div>
+      </section>
+
+      <section id="progress" class="tab">
+        <div class="card">
+          <h2>Progress</h2>
+          <div class="stats-grid">
+            <div class="stat">
+              <span id="tasksDone">0</span>
+              <small>Tasks done today</small>
+            </div>
+            <div class="stat">
+              <span id="dailyStreak">0</span>
+              <small>Day streak</small>
+            </div>
+            <div class="stat">
+              <span id="weightToday">--</span>
+              <small>Weight (kg)</small>
+            </div>
+          </div>
+          <label class="input-stack">Log weight today
+            <input id="weightInput" type="number" step="0.1" placeholder="Enter weight" />
+          </label>
+        </div>
+
+        <div class="card">
+          <h3>Weekly Completion</h3>
+          <div id="weeklyChart" class="weekly-chart"></div>
+        </div>
+
+        <div class="card">
+          <h3>Weight Log</h3>
+          <div id="weightLog" class="weight-log"></div>
+        </div>
+      </section>
+
+      <section id="gallery" class="tab">
+        <div class="card">
+          <h2>Photo Progress</h2>
+          <label class="input-stack">Upload today's photo
+            <input id="photoInput" type="file" accept="image/*" />
+          </label>
+          <div id="todayPhoto" class="photo-today"></div>
+          <button id="removePhoto" class="ghost hidden" type="button">Remove today's photo</button>
+        </div>
+
+        <div class="card">
+          <h3>Timeline Gallery</h3>
+          <div id="photoTimeline" class="timeline"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="tab">
+        <div class="card">
+          <h2>Settings</h2>
+          <label class="toggle">
+            <input id="themeToggleInput" type="checkbox" />
+            <span>Dark mode</span>
+          </label>
+          <button id="enableNotifications" type="button">Enable notifications</button>
+        </div>
+
+        <div class="card">
+          <h3>Custom Routines</h3>
+          <div class="inline-form">
+            <input id="newRoutineInput" placeholder="Add new routine (e.g., Meditation)" />
+            <button id="addRoutine" type="button">Add</button>
+          </div>
+          <div id="routineManager" class="routine-manager"></div>
+        </div>
+
+        <div class="card">
+          <h3>Reminder Tips</h3>
+          <p class="muted">Set reminder times on tasks inside routines. The app uses notifications when allowed, with an alert fallback.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button data-tab="home" class="active" type="button"><span>🏠</span>Home</button>
+      <button data-tab="routines" type="button"><span>📝</span>Routines</button>
+      <button data-tab="progress" type="button"><span>📈</span>Progress</button>
+      <button data-tab="gallery" type="button"><span>🖼️</span>Gallery</button>
+      <button data-tab="settings" type="button"><span>⚙️</span>Settings</button>
+    </nav>
+
+    <noscript>
+      <div class="card">
+        JavaScript is required to run KrishiFit. Please enable it and reload.
+      </div>
+    </noscript>
+  </body>
+</html>
